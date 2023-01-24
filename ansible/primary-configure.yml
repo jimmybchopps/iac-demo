@@ -1,0 +1,5 @@
+- hosts: demo_primary
+  gather_facts: yes
+  vars:
+    primary_net: "{{ hostvars[groups['demo_primary'][0]]['ansible_facts']['default_ipv4'] }}"
+    primary_dns: "{{ hostvars[groups['demo_primary'][0]]['ansible_facts']['dns'] }}"

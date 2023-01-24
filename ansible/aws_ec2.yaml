@@ -1,0 +1,10 @@
+plugin: aws_ec2
+regions:
+  - us-east-1
+filters:
+  tag:UUID: 7866e85b-0a85-490a-880b-7dfb71ed56b9
+keyed_groups:
+  - key: tags['Role']
+    prefix: Demo
+compose:
+  ansible_host: public_ip_address
