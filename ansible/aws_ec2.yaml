@@ -1,8 +1,9 @@
+---
 plugin: aws_ec2
 regions:
   - us-east-1
 filters:
-  tag:UUID: 7866e85b-0a85-490a-880b-7dfb71ed56b9
+  tag:UUID: 88b2cf4a-c7f1-4795-b5ed-bfcc85224aeb
 keyed_groups:
   - key: tags['Role']
     prefix: Demo
