@@ -1,7 +1,7 @@
-**/ansible_collections
+**/access/ec2_key.pem
+**/ansible/ansible_collections
 **/ansible/ansible.log
 **/terraform/.terraform.lock.hcl
 **/terraform/.terraform
 **/terraform/terraform.tfstate
 **/terraform/terraform.tfstate.backup
-**/terraform/keys/ec2_key.pem

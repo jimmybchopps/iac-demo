@@ -11,7 +11,7 @@ variable "props" {
     secgroupname = "Demo-Sec-Group"
     deploytag = "Demo"
     primarynodes = 1
-    secondarynodes = 1
+    secondarynodes = 2
   }
 }
 
@@ -126,7 +126,7 @@ resource "aws_key_pair" "pk" {
     Deployment = lookup(var.props, "deploytag")
   }
   provisioner "local-exec" {
-    command = "echo '${tls_private_key.pk.private_key_pem}' > ./keys/ec2_key.pem"
+    command = "echo '${tls_private_key.pk.private_key_pem}' > ../access/ec2_key.pem"
   }
 }
 

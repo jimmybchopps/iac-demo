@@ -1,11 +1,25 @@
----
 plugin: aws_ec2
+
+# Define one or more regions here
 regions:
   - us-east-1
+  - us-west-1
+
+# Define a filter that identifies all machines related to your task
+# Supports the use of multiple tags as well
 filters:
-  tag:UUID: 88b2cf4a-c7f1-4795-b5ed-bfcc85224aeb
+  tag:UUID: cfc34ee2-0399-4e47-bb8a-7276d37a1f28
+
+# Group the machines further by role tag
+# This could also be done by instance type, placement, region, etc.
 keyed_groups:
   - key: tags['Role']
     prefix: Demo
+
+# Set to ignore 403 errors (useful in more restrictive environments)
+strict_permissions: False
+
+# Set it to use the public ip address to connect
+# Change to private_ip_address to use Private IP for connection
 compose:
   ansible_host: public_ip_address

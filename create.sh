@@ -20,4 +20,7 @@ select yn in "Yes" "No"; do
   esac
 done
 
+#Change permissions on key
+chmod 400 access/ec2_key.pem
+
 #terraform -chdir=terraform apply -auto-approve && ansible-playbook ./ansible/playbooks/main.yml;;

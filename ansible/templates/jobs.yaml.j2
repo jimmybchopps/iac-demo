@@ -1,0 +1,20 @@
+some-client-service-here:
+{% for client in groups['Demo_Secondary'] %}
+# If the entire line is the variable or if the line starts with the variable it can mess up indentation
+# Thus the the use of '|indent' in the first line
+# See link for more info: https://stackoverflow.com/questions/34004171/printing-a-variable-value-indented-in-a-yaml-file-using-ansible
+  {{ hostvars[client]['inventory_hostname_short']|indent }}:
+    eth0:
+      mac-address: "{{ hostvars[client]['network_interfaces'][0].mac_address }}"
+      ip-address: {{ hostvars[client]['network_interfaces'][0].private_ip_address }}
+{% endfor %}
+some-other-service-here:
+{% for client in groups['Demo_Secondary'] %}
+# If the entire line is the variable or if the line starts with the variable it can mess up indentation
+# Thus the the use of '|indent' in the first line
+# See link for more info: https://stackoverflow.com/questions/34004171/printing-a-variable-value-indented-in-a-yaml-file-using-ansible
+  {{ hostvars[client]['inventory_hostname_short']|indent }}:
+    eth0:
+      mac-address: "{{ hostvars[client]['network_interfaces'][0].mac_address }}"
+      ip-address: {{ hostvars[client]['network_interfaces'][0].private_ip_address }}
+{% endfor %}

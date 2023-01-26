@@ -18,4 +18,10 @@ https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.
 
 ## Install Ansible Modules
 
-ansible-galaxy collection install -r ansible/requirements.yml -p
+ansible-galaxy collection install -r ansible/requirements.yml -p ./ansible
+
+## Install Additional Tools Required by AWS Dynamic Inventory
+
+sudo apt install python3-pip
+
+pip3 install boto3

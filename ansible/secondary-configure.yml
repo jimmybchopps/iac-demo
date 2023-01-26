@@ -1,3 +1,10 @@
-- hosts: demo_secondary
+- hosts: Demo_Secondary
   gather_facts: yes
-  
+
+  vars:
+    demo_main_net: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['default_ipv4'] }}"
+    demo_main_dns: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['dns'] }}"
+
+  name: Do Something
+  tasks:
+    - name: Do Some stuff

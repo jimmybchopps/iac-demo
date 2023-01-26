@@ -1,5 +1,46 @@
-- hosts: demo_primary
+- hosts: Demo_Primary
   gather_facts: yes
-  vars:
-    primary_net: "{{ hostvars[groups['demo_primary'][0]]['ansible_facts']['default_ipv4'] }}"
-    primary_dns: "{{ hostvars[groups['demo_primary'][0]]['ansible_facts']['dns'] }}"
+
+  name: Do Stuff
+  tasks:
+    - name: Generate the stuff
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - { src: ../templates/nodes.yaml.j2, dest: /etc/demo/nodes.yaml }
+        - { src: ../templates/jobs.yaml.j2, dest: /etc/demo/jobs.yaml }
+
+    - name: Check SSM Service
+      service:
+        name: amazon-ssm-agent
+        state: started
+
+    - name: Enable and Start Bind
+      become: yes
+      systemd:
+        enabled: yes
+        state: restarted
+        name: bind9
+        daemon_reload: yes
+
+    - name: Modify nameserver to look at bind
+      become: yes
+      register: command_output
+      lineinfile:
+        path: /run/systemd/resolve/stub-resolv.conf
+        regexp: "{{ item.from }}"
+        line: "{{ item.to }}"
+        state: present
+      with_items:
+        - { from: 'nameserver 127.0.0.53', to: 'nameserver 127.0.0.1' }
+
+    - name: Reboot the machine and checks if it can SSH into each machine (5 Mins of retries)
+      become: true
+      reboot:
+        reboot_timeout: 300
+        post_reboot_delay: 30
+        connect_timeout: 10
