@@ -23,4 +23,5 @@ done
 #Change permissions on key
 chmod 400 access/ec2_key.pem
 
-#terraform -chdir=terraform apply -auto-approve && ansible-playbook ./ansible/playbooks/main.yml;;
+#Run the playbook
+ansible-playbook ./ansible/main.yml

@@ -1,9 +1,22 @@
 - hosts: Demo_Primary
   gather_facts: yes
 
-  name: Do Stuff
+  name: Set up Primary
   tasks:
-    - name: Generate the stuff
+    - name: Update Repositories and Install Bind9 and 
+      ansible.builtin.apt:
+        update_cache: yes
+        pkg:
+        - bind9
+        - resolvconf
+
+    - name: Create Demo Directory
+      ansible.builtin.file:
+        path: /etc/demo
+        state: directory
+        mode: '0755'
+
+    - name: Generate the Templates and Move to Location
       template:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
@@ -13,19 +26,6 @@
       with_items:
         - { src: ../templates/nodes.yaml.j2, dest: /etc/demo/nodes.yaml }
         - { src: ../templates/jobs.yaml.j2, dest: /etc/demo/jobs.yaml }
-
-    - name: Check SSM Service
-      service:
-        name: amazon-ssm-agent
-        state: started
-
-    - name: Enable and Start Bind
-      become: yes
-      systemd:
-        enabled: yes
-        state: restarted
-        name: bind9
-        daemon_reload: yes
 
     - name: Modify nameserver to look at bind
       become: yes
@@ -38,9 +38,13 @@
       with_items:
         - { from: 'nameserver 127.0.0.53', to: 'nameserver 127.0.0.1' }
 
-    - name: Reboot the machine and checks if it can SSH into each machine (5 Mins of retries)
-      become: true
-      reboot:
-        reboot_timeout: 300
-        post_reboot_delay: 30
-        connect_timeout: 10
+    # - name: Enable and Start Bind
+    #   ansible.builtin.systemd:
+    #     enabled: yes
+    #     state: restarted
+    #     name: {{ item }}
+    #     daemon_reload: yes
+    #   with_items:
+    #     - "bind"
+    #     - "systemd-resolved"
+    #     - "resolvconf"

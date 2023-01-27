@@ -11,7 +11,7 @@ variable "props" {
     secgroupname = "Demo-Sec-Group"
     deploytag = "Demo"
     primarynodes = 1
-    secondarynodes = 2
+    secondarynodes = 1
   }
 }
 

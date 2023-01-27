@@ -5,6 +5,11 @@
     demo_main_net: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['default_ipv4'] }}"
     demo_main_dns: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['dns'] }}"
 
-  name: Do Something
+  name: Set up Clients
   tasks:
-    - name: Do Some stuff
+
+    - name: Create Demo Directory
+      ansible.builtin.file:
+        path: /etc/demo
+        state: directory
+        mode: '0755'
