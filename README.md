@@ -1,6 +1,6 @@
 ## Infrastructure as Code Demo
 
-A Hastily thrown together sample of using terraform to create infrastructure in AWS with Ansible used to provide further configuration in a dynamically built environment.
+A hastily thrown together sample of using terraform to create infrastructure in AWS with Ansible used to provide further configuration in a dynamically built environment.
 
 ## Install AWS CLI and configure
 

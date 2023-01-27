@@ -9,6 +9,7 @@
   tasks:
 
     - name: Create Demo Directory
+      become: yes
       ansible.builtin.file:
         path: /etc/demo
         state: directory

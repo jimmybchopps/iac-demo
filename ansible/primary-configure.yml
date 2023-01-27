@@ -1,9 +1,14 @@
 - hosts: Demo_Primary
   gather_facts: yes
 
+  vars:
+    demo_main_net: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['default_ipv4'] }}"
+    demo_main_dns: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['dns'] }}"
+
   name: Set up Primary
   tasks:
-    - name: Update Repositories and Install Bind9 and 
+    - name: Update Repositories and Install Bind9 and Resolvconf
+      become: yes
       ansible.builtin.apt:
         update_cache: yes
         pkg:
@@ -11,12 +16,14 @@
         - resolvconf
 
     - name: Create Demo Directory
+      become: yes
       ansible.builtin.file:
         path: /etc/demo
         state: directory
         mode: '0755'
 
     - name: Generate the Templates and Move to Location
+      become: yes
       template:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
