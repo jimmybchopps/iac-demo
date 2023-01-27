@@ -3,7 +3,6 @@
 
   vars:
     demo_main_net: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['default_ipv4'] }}"
-    demo_main_dns: "{{ hostvars[groups['Demo_Primary'][0]]['ansible_facts']['dns'] }}"
 
   name: Set up Primary
   tasks:
@@ -32,26 +31,4 @@
         mode: 0644
       with_items:
         - { src: ../templates/nodes.yaml.j2, dest: /etc/demo/nodes.yaml }
-        - { src: ../templates/jobs.yaml.j2, dest: /etc/demo/jobs.yaml }
-
-    - name: Modify nameserver to look at bind
-      become: yes
-      register: command_output
-      lineinfile:
-        path: /run/systemd/resolve/stub-resolv.conf
-        regexp: "{{ item.from }}"
-        line: "{{ item.to }}"
-        state: present
-      with_items:
-        - { from: 'nameserver 127.0.0.53', to: 'nameserver 127.0.0.1' }
-
-    # - name: Enable and Start Bind
-    #   ansible.builtin.systemd:
-    #     enabled: yes
-    #     state: restarted
-    #     name: {{ item }}
-    #     daemon_reload: yes
-    #   with_items:
-    #     - "bind"
-    #     - "systemd-resolved"
-    #     - "resolvconf"
+        - { src: ../templates/named.conf.options, dest: /etc/bind/named.conf.options }
