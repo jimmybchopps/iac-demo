@@ -8,7 +8,7 @@ regions:
 # Define a filter that identifies all machines related to your task
 # Supports the use of multiple tags as well
 filters:
-  tag:UUID: 11869e68-258e-4cdc-a175-9c8b005de43d
+  tag:UUID: 2fc82e48-7acd-47dc-8db8-6309bd045c2d
 
 # Group the machines further by role tag
 # This could also be done by instance type, placement, region, etc.
